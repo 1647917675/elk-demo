@@ -39,50 +39,12 @@
         </rollingPolicy>
     </appender>
 
-
-    <appender name="stash1" class="net.logstash.logback.appender.LogstashSocketAppender">
+    <appender name="stash" class="net.logstash.logback.appender.LogstashSocketAppender">
         <!-- logstash的ip或是域名 -->
         <host>192.168.126.132</host>
         <!-- port is optional (default value shown) logstash监听的端口 -->
         <port>8899</port>
-        
     </appender>
-
-    <springProperty scope="context" name="env" source="env" defaultValue="edas"/>
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>192.168.126.132:4560</destination>
-        <destination>192.168.126.132:4561</destination>
-        <connectionStrategy>
-            <preferPrimary>
-                <!--<connectionTTL>1 minutes</connectionTTL>-->
-                <secondaryConnectionTTL>1 minutes</secondaryConnectionTTL>
-            </preferPrimary>
-        </connectionStrategy>
-        <!--<filter class="com.example.demo.logger.XescmFilter">-->
-            <!--<level>INFO</level>-->
-            <!--<loggerName>com.example.demo</loggerName>-->
-        <!--</filter>-->
-        <reconnectionDelay>1 second</reconnectionDelay>
-        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
-            <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
-                <expression>
-                    if(logger.startsWith("com.example.demo")&amp;&amp; level > DEBUG )
-                        return true;
-
-                    return false;
-                </expression>
-            </evaluator>
-            <OnMismatch>DENY</OnMismatch>
-        </filter>
-         <!--encoder is required-->
-        <!--Both includeMdcKeyNames and excludeMdcKeyNames are not empty-->
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"mywebservice","env":"${env}"}</customFields>
-            <includeMdcKeyName>key1</includeMdcKeyName>
-        </encoder>
-    </appender>
-
-
     <!-- ###################### DAO日志监控  ###################### -->
     <appender name="DaoStatistics" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -127,7 +89,6 @@
         <appender-ref ref="LogFile"/>
         <appender-ref ref="ErrorFile"/>
         <appender-ref ref="stash"/>
-        <appender-ref ref="stash1"/>
     </root>
 
 

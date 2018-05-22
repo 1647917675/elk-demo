@@ -39,15 +39,6 @@
         </rollingPolicy>
     </appender>
 
-
-    <appender name="stash1" class="net.logstash.logback.appender.LogstashSocketAppender">
-        <!-- logstash的ip或是域名 -->
-        <host>192.168.126.132</host>
-        <!-- port is optional (default value shown) logstash监听的端口 -->
-        <port>8899</port>
-        
-    </appender>
-
     <springProperty scope="context" name="env" source="env" defaultValue="edas"/>
     <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>192.168.126.132:4560</destination>
@@ -58,10 +49,10 @@
                 <secondaryConnectionTTL>1 minutes</secondaryConnectionTTL>
             </preferPrimary>
         </connectionStrategy>
-        <!--<filter class="com.example.demo.logger.XescmFilter">-->
-            <!--<level>INFO</level>-->
-            <!--<loggerName>com.example.demo</loggerName>-->
-        <!--</filter>-->
+        <filter class="com.example.demo.logger.XescmFilter">
+            <level>INFO</level>
+            <loggerName>com.example.demo</loggerName>
+        </filter>
         <reconnectionDelay>1 second</reconnectionDelay>
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
             <evaluator> <!-- defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
@@ -127,7 +118,6 @@
         <appender-ref ref="LogFile"/>
         <appender-ref ref="ErrorFile"/>
         <appender-ref ref="stash"/>
-        <appender-ref ref="stash1"/>
     </root>
 
 

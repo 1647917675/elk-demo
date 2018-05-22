@@ -26,7 +26,6 @@ public class DemoService2Impl implements DemoService2 {
     @Override
     public String getDemo2() {
         MDC.put("key1","name");
-        MDC.put("env","123");
         logger.info("current source {} {}","java",demoSerice.getDemo1());
         return demoSerice.toString();
     }
